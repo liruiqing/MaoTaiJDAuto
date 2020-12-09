@@ -58,6 +58,7 @@ class Jd_Mask_Spider(object):
         }
         print("payload"+json.dumps(payload)+"\n"+"headers"+json.dumps(headers));
         resp = self.session.get(url=url, params=payload, headers=headers)
+        print(resp)
         resp_json = parse_json(resp.text)
         reserve_url = resp_json.get('url')
         self.timers.start()
@@ -112,6 +113,7 @@ class Jd_Mask_Spider(object):
         }
         while True:
             resp = self.session.get(url=url, headers=headers, params=payload)
+            print(resp)
             resp_json = parse_json(resp.text)
             if resp_json.get('url'):
                 # https://divide.jd.com/user_routing?skuId=8654289&sn=c3f4ececd8461f0e4d7267e96a91e0e0&from=pc
@@ -176,6 +178,7 @@ class Jd_Mask_Spider(object):
             'Host': 'marathon.jd.com',
         }
         resp = self.session.post(url=url, data=data, headers=headers)
+        print(resp)
         return parse_json(resp.text)
 
     def _get_seckill_order_data(self):
@@ -249,6 +252,7 @@ class Jd_Mask_Spider(object):
             data=self.seckill_order_data.get(
                 self.sku_id),
             headers=headers)
+        print(resp)
         resp_json = parse_json(resp.text)
         # 返回信息
         # 抢购失败：

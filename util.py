@@ -3,6 +3,7 @@ import random
 import requests
 from config import global_config
 from lxml import etree
+from json import JSONDecodeError
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
@@ -60,7 +61,12 @@ USER_AGENTS = [
 def parse_json(s):
     begin = s.find('{')
     end = s.rfind('}') + 1
-    return json.loads(s[begin:end])
+    print(s)
+    try:
+        return json.loads(s[begin:end])
+    except JSONDecodeError as err:
+        print("[json解析失败] " + str(err))
+
 
 def get_random_useragent():
     """生成随机的UserAgent
