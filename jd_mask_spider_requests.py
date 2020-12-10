@@ -3,6 +3,7 @@ import sys
 import time
 from jdlogger import logger
 from timer import Timer
+from time import sleep
 import requests
 from util import parse_json, get_session, get_sku_title,send_wechat
 from config import global_config
@@ -61,8 +62,7 @@ class Jd_Mask_Spider(object):
         print(resp)
         resp_json = parse_json(resp.text)
         reserve_url = resp_json.get('url')
-        self.timers.start()
-        while True:
+        for flag in range(10):
             try:
                 self.session.get(url='https:' + reserve_url)
                 logger.info('预约成功，已获得抢购资格 / 您已成功预约过了，无需重复预约')
@@ -71,7 +71,9 @@ class Jd_Mask_Spider(object):
                     send_wechat(success_message)
                 break
             except Exception as e:
-                logger.error('预约失败正在重试...')
+                logger.error('预约失败正在重试...' + str(flag) + " " + str(e))
+                sleep(random.randint(1, 3))
+        sys.exit(1)
 
     def get_username(self):
         """获取用户信息"""
