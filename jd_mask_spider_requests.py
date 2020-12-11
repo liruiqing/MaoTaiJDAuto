@@ -260,6 +260,7 @@ class Jd_Mask_Spider(object):
                 self.sku_id),
             headers=headers)
         print(resp)
+        #这个地方有时候解析会报错，因为resp返回的是https://marathon.jd.com/koFail.html 非json
         resp_json = parse_json(resp.text)
         # 返回信息
         # 抢购失败：
