@@ -179,6 +179,7 @@ class Jd_Mask_Spider(object):
             'User-Agent': self.default_user_agent,
             'Host': 'marathon.jd.com',
         }
+        #in request_seckill_url  sleep(0.1)  NameError: name 'sleep' is not defined  报错信息在这，调用time.sleep(0.1)
         while True:
             resp = self.session.post(url=url, data=data, headers=headers)
             if len(resp.text) >= 100:
