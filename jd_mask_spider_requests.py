@@ -179,7 +179,12 @@ class Jd_Mask_Spider(object):
             'User-Agent': self.default_user_agent,
             'Host': 'marathon.jd.com',
         }
-        resp = self.session.post(url=url, data=data, headers=headers)
+        while True:
+            resp = self.session.post(url=url, data=data, headers=headers)
+            if len(resp.text) >= 100:
+                break
+            else:
+                sleep(0.01)
         print(resp)
         return parse_json(resp.text)
 
