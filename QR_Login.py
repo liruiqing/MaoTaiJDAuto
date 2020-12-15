@@ -178,6 +178,8 @@ class JDLogin(object):
             if name.endswith('.cookies'):
                 cookies_file = './cookies/{0}'.format(name)
                 break
+        if len(cookies_file) == 0 :
+            return False;
         with open(cookies_file, 'rb') as f:
             local_cookies = pickle.load(f)
         self.session.cookies.update(local_cookies)
