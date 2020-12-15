@@ -5,6 +5,7 @@ from config import global_config
 from lxml import etree
 from json import JSONDecodeError
 import  os
+import pickle
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
@@ -97,7 +98,19 @@ def get_session():
                             "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
                             "Connection": "keep-alive"}
     # 获取cookies保存到session
-    session.cookies = get_cookies()
+    # session.cookies = get_cookies()
+    if not os.path.exists('./cookies'):
+        return session;
+    cookies_file = ''
+    for name in os.listdir('./cookies'):
+        if name.endswith('.cookies'):
+            cookies_file = './cookies/{0}'.format(name)
+            break
+    if len(cookies_file) == 0:
+        return session;
+    with open(cookies_file, 'rb') as f:
+        local_cookies = pickle.load(f)
+    session.cookies.update(local_cookies)
     return session
 
 def get_sku_title():

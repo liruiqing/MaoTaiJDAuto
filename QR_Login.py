@@ -173,6 +173,8 @@ class JDLogin(object):
         return False
 
     def JD_LoadCookie(self):
+        if not os.path.exists('./cookies'):
+            return False;
         cookies_file = ''
         for name in os.listdir('./cookies'):
             if name.endswith('.cookies'):
