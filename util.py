@@ -4,6 +4,7 @@ import requests
 from config import global_config
 from lxml import etree
 from json import JSONDecodeError
+import  os
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
@@ -120,3 +121,15 @@ def send_wechat(message):
         'User-Agent':global_config.getRaw('config', 'DEFAULT_USER_AGENT')
     }
     requests.get(url, params=payload, headers=headers)
+
+def open_image(image_file):
+    if os.name == "nt":
+        os.system('start ' + image_file)  # for Windows
+    else:
+        if os.uname()[0] == "Linux":
+            if "deepin" in os.uname()[2]:
+                os.system("deepin-image-viewer " + image_file)  # for deepin
+            else:
+                os.system("eog " + image_file)  # for Linux
+        else:
+            os.system("open " + image_file)  # for Mac
